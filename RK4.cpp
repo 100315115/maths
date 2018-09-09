@@ -1,5 +1,7 @@
 #include <iostream>
 #include <math.h>
+#include <fstream>
+#include <cassert>
 using namespace std;
 
 int n = 10;
@@ -36,7 +38,10 @@ void RK4(double vx [], double vy [])
     vx[0] = x_0;
     vy[0] = y_0;
     
-    cout << vx[0] << ',' << vy[0] << endl;
+    std::ofstream write_output("RK4.csv");
+    assert(write_output.is_open());
+    
+    write_output << vx[0] << ',' << vy[0] << endl;
     
     for(int i = 1; i<=n; i++)
     {   k_1 = h * f(vx[i-1], vy[i-1]);
@@ -48,6 +53,8 @@ void RK4(double vx [], double vy [])
         vy[i] = vy[i-1] + (1.0/6*(k_1 + 2*k_2 + 2*k_3 + k_4));
         vx[i] = vx[i-1] + h;
         
-        cout << vx[i] << ',' << vy[i] << endl; 
+        write_output << vx[i] << ',' << vy[i] << endl; 
     }
+    
+    write_output.close();
 }
